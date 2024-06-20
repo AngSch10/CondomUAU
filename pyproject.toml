@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "amm-cond-proj"
+version = "0.1.0"
+description = ""
+authors = ["Angelo Schepis <angelo.schepis.as@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+streamlit = "^1.35.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
