@@ -961,6 +961,23 @@ watchdog = {version = ">=2.1.5", markers = "platform_system != \"Darwin\""}
 snowflake = ["snowflake-connector-python (>=2.8.0)", "snowflake-snowpark-python (>=0.9.0)"]
 
 [[package]]
+name = "streamlit-pdf-viewer"
+version = "0.0.12"
+description = "Streamlit component for PDF visualisation and manipulation"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "streamlit_pdf_viewer-0.0.12-py3-none-any.whl", hash = "sha256:c01a69469cb2d19673e8c6d68c440fc8a6c813df05b7f863aa4653d71cb8ef88"},
+    {file = "streamlit_pdf_viewer-0.0.12.tar.gz", hash = "sha256:6f00b354b57a384f4c23c3b9be01be54b0fabe96acd63893e1759cf5a891cfa5"},
+]
+
+[package.dependencies]
+streamlit = ">=0.63"
+
+[package.extras]
+devel = ["wheel"]
+
+[[package]]
 name = "tenacity"
 version = "8.4.1"
 description = "Retry code until it succeeds"
@@ -1103,4 +1120,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "691b3bced9bcdc41aa92b19e01b5c33ad162f2f23f15ec9046a4d9d65cbd4879"
+content-hash = "9f8082cfdda1da543b51e2d3983e24ee3ca56f04ad33f58db773b95a99324425"
