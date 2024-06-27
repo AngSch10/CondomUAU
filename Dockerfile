@@ -2,7 +2,7 @@
 FROM python:3.10-slim
 
 # Set environment variables
-ENV POETRY_VERSION=1.5.1
+ENV POETRY_VERSION=1.8.3
 
 # Install dependencies for Poetry and Streamlit
 RUN apt-get update && apt-get install -y --no-install-recommends \
