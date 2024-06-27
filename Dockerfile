@@ -36,4 +36,4 @@ RUN poetry install
 EXPOSE 8501
 
 # Command to run the Streamlit app
-CMD ["poetry", "run", "streamlit", "run", "app.py"]
+CMD ["poetry", "run", "streamlit", "run", "app/main.py"]
