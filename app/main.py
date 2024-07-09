@@ -1,20 +1,60 @@
-import os
-import requests
 import streamlit as st
-#from llama_index import LlamaIndex
+import openai
+from llama_index.llms.ollama import Ollama
+from llama_index.embeddings.ollama import OllamaEmbedding
 
-OLLAMA_URL = os.getenv('OLLAMA_URL', 'http://ollama:8000')
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings
 
-st.title("Llama and Ollama App")
+st.set_page_config(page_title="Chat with the Streamlit docs, powered by LlamaIndex", page_icon="🦙", layout="centered", initial_sidebar_state="auto", menu_items=None)
+st.title("Chat with the your docs, powered by LlamaIndex 💬🦙")
 
-#if st.button('Query Llama'):
-#    index = LlamaIndex()
-#    response = index.query("Hello, Llama!")
-#    st.write(response)
+if "messages" not in st.session_state.keys():  # Initialize the chat messages history
+    st.session_state.messages = [
+        {
+            "role": "assistant",
+            "content": "Ask me a question about your data!",
+        }
+    ]
 
-if st.button('Query Ollama'):
-    response = requests.post(
-        f"{OLLAMA_URL}/generate",
-        json={"prompt": "Hello, Ollama!"}
+@st.cache_resource(show_spinner=False)
+def load_data():
+    reader = SimpleDirectoryReader(input_dir="./data", recursive=True)
+    docs = reader.load_data()
+    Settings.llm = Ollama(
+        model="llama3",
+        system_prompt="""You are an expert on 
+        the docs provided and your 
+        job is to answer technical questions.
+        Keep your answers technical and based on 
+        facts – do not hallucinate features.""",
     )
-    st.write(response.json())
+    Settings.embed_model = OllamaEmbedding(model_name="llama3")
+
+    index = VectorStoreIndex.from_documents(docs)
+    return index
+
+
+index = load_data()
+
+if "chat_engine" not in st.session_state.keys():  # Initialize the chat engine
+    st.session_state.chat_engine = index.as_chat_engine(
+        chat_mode="condense_question", verbose=True, streaming=True
+    )
+
+if prompt := st.chat_input(
+    "Ask a question"
+):  # Prompt for user input and save to chat history
+    st.session_state.messages.append({"role": "user", "content": prompt})
+
+for message in st.session_state.messages:  # Write message history to UI
+    with st.chat_message(message["role"]):
+        st.write(message["content"])
+
+# If last message is not from assistant, generate a new response
+if st.session_state.messages[-1]["role"] != "assistant":
+    with st.chat_message("assistant"):
+        response_stream = st.session_state.chat_engine.stream_chat(prompt)
+        st.write_stream(response_stream.response_gen)
+        message = {"role": "assistant", "content": response_stream.response}
+        # Add response to message history
+        st.session_state.messages.append(message)
