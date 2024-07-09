@@ -9,8 +9,16 @@ services:
       - OLLAMA_URL=http://ollama:8000
     depends_on:
       - ollama
+    networks:
+      - ollama-docker
 
   ollama:
     image: ollama/ollama:latest
     ports:
       - "8000:8000"
+    networks:
+      - ollama-docker
+
+networks:
+  ollama-docker:
+    external: false

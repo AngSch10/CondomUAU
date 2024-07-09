@@ -5,3 +5,6 @@
 # Docker
 1. docker build -t streamlit-poetry-app .
 2. docker run -p 8501:8501 streamlit-poetry-app
+
+# Docker compose
+docker-compose up --build
