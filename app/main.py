@@ -1,7 +1,14 @@
 import streamlit as st
-from streamlit_pdf_viewer import pdf_viewer
+from langchain_community.llms import Ollama
 
-uploaded_file = st.file_uploader('Choose your .pdf file', type="pdf")
-if uploaded_file is not None:
-    binary_data = uploaded_file.getvalue()
-    pdf_viewer(binary_data)
+st.title('🦜🔗 Quickstart App')
+
+def generate_response(input_text):
+    llm = Ollama(model="llama3",base_url="http://ollama-container:11434", verbose=True) 
+    st.info(llm.invoke(input_text))
+
+with st.form('my_form'):
+    text = st.text_area('Enter text:', 'What are the three key pieces of advice for learning how to code?')
+    submitted = st.form_submit_button('Submit')
+    if submitted:
+        generate_response(text)
