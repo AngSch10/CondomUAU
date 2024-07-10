@@ -3,13 +3,14 @@
 2. streamlit run app/main.py
 
 # Docker
-1. docker build -t streamlit-poetry-app .
-2. docker run -p 8501:8501 streamlit-poetry-app
+1. docker build -t streamlit-langchain-app .
+2. docker run -p 8501:8501 streamlit-langchain-app
 
-# LLM MODEL (Local)
-Ollama (llama3)
+# Kill process locking PORT on Mac
+lsof -i tcp:PORT
+kill -9 <PID>
 
-## TODO: 
-1. put Ollama in Docker
-2. choose lighter model (mistral) and for embeddings 
+## TODO: It works locally, not Docker
+1. connect Ollama model to Docker app
+2. choose lighter model 
 
