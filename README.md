@@ -9,8 +9,3 @@
 # Kill process locking PORT on Mac
 lsof -i tcp:PORT
 kill -9 <PID>
-
-## TODO: It works locally, not Docker
-1. connect Ollama model to Docker app
-2. choose lighter model 
-
