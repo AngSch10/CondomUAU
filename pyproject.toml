@@ -10,6 +10,8 @@ python = "^3.10"
 streamlit = "^1.35.0"
 langchain = "^0.2.6"
 langchain-community = "^0.2.6"
+streamlit-pdf-viewer = "^0.0.14"
+pymupdf = "^1.24.7"
 
 
 [build-system]
