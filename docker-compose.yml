@@ -1,3 +1,5 @@
+name: condomapp
+
 services:
   ollama:
     image: ollama/ollama:latest
