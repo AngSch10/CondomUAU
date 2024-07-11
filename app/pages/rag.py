@@ -58,28 +58,40 @@ def rag_ita_pdf():
 def generate_response(uploaded_file,query_text):
     # Load document if file is uploaded
     if uploaded_file is not None:
-        documents = [uploaded_file.read().decode()]
-        # Split documents into chunks
-        text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
-        texts = text_splitter.create_documents(documents)
-        # Select embeddings
-        embeddings = (OllamaEmbeddings(model="llama3"))
-        # Create a vectorstore from documents
-        db = Chroma.from_documents(texts, embeddings)
-        # Create retriever interface
-        retriever = db.as_retriever()
-        # Choose model
-        llm = ChatOllama(model="llama3")
-        # Create QA chain
-        qa = RetrievalQA.from_chain_type(llm=llm, chain_type='stuff', retriever=retriever)
-        return qa.run(query_text)
+        #documents = [uploaded_file.read().decode()]
+         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmpfile:
+            shutil.copyfileobj(uploaded_file, tmpfile)
+            file_path = tmpfile.name
+        
+            loader = PyMuPDFLoader(file_path)
+            document = loader.load()
+            # Split documents into chunks
+            text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+            texts = text_splitter.create_documents(document)
+            # Select embeddings
+            embeddings = (OllamaEmbeddings(model="llama3"))
+            # Create a vectorstore from documents
+            db = Chroma.from_documents(texts, embeddings)
+            # Create retriever interface
+            retriever = db.as_retriever()
+            # Choose model
+            llm = ChatOllama(model="llama3")
+            # Create QA chain
+            qa = RetrievalQA.from_chain_type(llm=llm, chain_type='stuff', retriever=retriever)
+            
+            answer = qa.run(query_text)
+        
+            if file_path:
+                os.unlink(file_path)
+
+    return answer
 
 # Page title
 st.set_page_config(page_title='🦜🔗 Ask the Doc App')
 st.title('🦜🔗 Ask the Doc App')
 
 # File upload
-uploaded_file = st.file_uploader('Upload an article', type='txt')
+uploaded_file = st.file_uploader('Upload an article', type='pdf')
 # Query text
 query_text = st.text_input('Enter your question:', placeholder = 'Please provide a short summary.', disabled=not uploaded_file)
 
