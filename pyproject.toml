@@ -14,6 +14,8 @@ streamlit-pdf-viewer = "^0.0.14"
 pymupdf = "^1.24.7"
 faiss-cpu = "^1.8.0.post1"
 chromadb = "^0.5.4"
+pypdf2 = "^3.0.1"
+streamlit-extras = "^0.4.3"
 
 
 [build-system]
