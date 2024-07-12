@@ -1,0 +1,6 @@
+# Ignora i file di sistema Mac
+.DS_store
+
+# Ignora la cartelle
+data
+images
