@@ -13,10 +13,10 @@ from langchain.schema import Document
 # DEFINE VARIABLES
 # Change these to match your specific directory and file extension
 SUB_EXT = '/Users/Angelo/Documents/Progetti/amm_cond_proj/data'
-SUB_EMB = 'SUB_EMB'
+SUB_EMB = '/Users/Angelo/Documents/Progetti/amm_cond_proj/data_embed'
 EXT = '.pdf'
 EMB_EXT = '.pkl'
-FILE_LIST = '/Users/Angelo/Documents/Progetti/amm_cond_proj/file_name_list.txt'
+FILE_LIST = '/Users/Angelo/Documents/Progetti/amm_cond_proj/data_namelist.txt'
 #_________________________________________
 # Initialize llm and embeddings:
 llm = Ollama(model="llama3")

@@ -1,6 +1,8 @@
 # Ignora i file di sistema Mac
 .DS_store
-
 # Ignora la cartelle
+/data_namelist.txt
 data
+data_embed
+
 images
